@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap 심플 예제</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container my-5">
+    <h1 class="mb-3">안녕하세요, Bootstrap!</h1>
+    <p class="lead">이것은 Bootstrap을 사용한 간단한 예제입니다.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="p-3 bg-light border rounded">
+          왼쪽 컬럼 (절반 너비)
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 bg-white border rounded">
+          오른쪽 컬럼 (절반 너비)
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-4">자세히 보기</button>
+  </div>
+  <!-- Bootstrap JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+	$(function () {
+      alert('부트스트랩을 활용해 봐요~~');
+  	});  
+  </script>
+</body>
+</html>

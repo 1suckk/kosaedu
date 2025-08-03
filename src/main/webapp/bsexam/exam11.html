@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>메모 표시 달력 (Bootstrap 5 + jQuery UI)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet" />
+  <style>
+    body {
+      padding-top: 2rem;
+    }
+    #memo-section {
+      margin-top: 1rem;
+    }
+    /* 달력 각 날짜 셀을 상대위치로 변경 (배지 표시를 위해) */
+    .ui-datepicker td {
+      position: relative;
+    }
+    /* 메모가 있는 날짜에 표시할 배지 스타일 */
+    .memo-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 10px;
+      height: 10px;
+      background-color: #0d6efd;
+      border-radius: 50%;
+      border: 1px solid white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width: 400px;">
+    <h3 class="mb-4">메모 표시 달력</h3>
+    <input type="text" id="datepicker" class="form-control" placeholder="날짜를 선택하세요" readonly style="background-color: white; cursor: pointer;" />
+    
+    <div id="memo-section" class="d-none">
+      <h5 class="mt-4">선택한 날짜: <span id="selected-date"></span></h5>
+      <textarea id="memo-text" class="form-control" rows="5" placeholder="이곳에 메모를 작성하세요"></textarea>
+      <button id="save-memo" class="btn btn-primary mt-3">메모 저장</button>
+      <div id="save-alert" class="alert alert-success mt-3 d-none" role="alert">
+        메모가 저장되었습니다!
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <script>
+    $(function () {
+      // 메모가 저장된 날짜 배열을 가져오는 함수
+      function getMemoDates() {
+        let memoDates = [];
+        for(let i=0; i<localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if(key.startsWith('memo_')) {
+            memoDates.push(key.replace('memo_', ''));
+          }
+        }
+        return memoDates;
+      }
+
+      // 달력 날짜 셀 꾸미기 - 메모가 있는 날짜에 배지를 표시
+      function highlightMemoDates(date) {
+        const y = date.getFullYear();
+        const m = ("0" + (date.getMonth() + 1)).slice(-2);
+        const d = ("0" + date.getDate()).slice(-2);
+        const dateString = `${y}-${m}-${d}`;
+        const memoDates = getMemoDates();
+
+        if(memoDates.indexOf(dateString) !== -1) {
+          return [true, 'has-memo', '메모 있음'];
+        }
+        return [true, '', ''];
+      }
+
+      // 달력 생성
+      $("#datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        beforeShowDay: highlightMemoDates, // 날짜별 클래스 부여용 콜백
+        onSelect: function (dateText) {
+          $('#selected-date').text(dateText);
+          $('#memo-section').removeClass('d-none');
+          // 저장된 메모 불러오기
+          const memo = localStorage.getItem('memo_' + dateText) || '';
+          $('#memo-text').val(memo);
+          $('#save-alert').addClass('d-none');
+        }
+      });
+
+      // 날짜셀에 메모 배지를 표시할 때 사용하는 mutation observer 혹은 직접 처리
+      // UI 추가 - 날짜 셀에 배지를 삽입하는 함수
+      function addMemoBadges() {
+        // 모든 날짜 버튼 td 요소 커스텀
+        $("#datepicker td").each(function () {
+          // 이미 배지가 있으면 삭제하여 중복 방지
+          $(this).find('.memo-badge').remove();
+
+          const text = $(this).find('a').text();
+          if(!text) return; // 빈 td는 무시
+
+          const month = $("#datepicker").datepicker('getDate')?.getMonth() + 1 || 0;
+          const year = $("#datepicker").datepicker('getDate')?.getFullYear() || 0;
+
+          // datepicker 월과 연도 고려해서 날짜 생성
+          // text는 날짜 숫자
+          // 정확한 날짜 문자열 만들기
+          if(year && month) {
+            const mm = ("0" + month).slice(-2);
+            const dd = ("0" + text).slice(-2);
+            const fullDate = `${year}-${mm}-${dd}`;
+            const memoDates = getMemoDates();
+
+            if(memoDates.indexOf(fullDate) !== -1) {
+              // 배지 생성 후 td에 추가
+              $(this).append('<span class="memo-badge" title="메모가 있습니다"></span>');
+            }
+          }
+        });
+      }
+
+      // 달력이 생성되거나 페이징 될 때마다 배지 추가
+      $("#datepicker").on("datepicker-change datepicker-set", function() {
+        addMemoBadges();
+      });
+
+      // 초기 배지 표시 (달력 초기 로딩 후 약간 딜레이 줌)
+      function initialHighlight() {
+        setTimeout(() => {
+          addMemoBadges();
+        }, 10);
+      }
+      initialHighlight();
+
+      // 페이지 내에서 달력 월 바뀔 때마다 배지 갱신
+      // datepicker에는 공식적인 변환 이벤트는 없으므로 month/year 변경 버튼 클릭시 처리
+      $('.ui-datepicker-prev, .ui-datepicker-next').click(function() {
+        setTimeout(() => {
+          addMemoBadges();
+        }, 10);
+      });
+
+      // 메모 저장 버튼 클릭시 처리
+      $('#save-memo').click(function () {
+        const date = $('#selected-date').text();
+        const memo = $('#memo-text').val().trim();
+        if (!date) {
+          alert('먼저 날짜를 선택하세요.');
+          return;
+        }
+        if(memo) {
+          localStorage.setItem('memo_' + date, memo);
+        } else {
+          localStorage.removeItem('memo_' + date); // 빈 메모이면 삭제 처리
+        }
+        $('#save-alert').removeClass('d-none');
+        addMemoBadges(); // 저장 후 배지 갱신
+        setTimeout(() => {
+          $('#save-alert').addClass('d-none');
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
