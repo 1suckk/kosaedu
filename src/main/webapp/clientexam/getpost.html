@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GET&POST</title>
+</head>
+<body>
+	<h1>JSP 요청</h1>
+	
+	<hr>
+	
+	<a href="/sedu/jspexam/exam4.jsp?name=채원석">GET 방식요청</a>
+	
+	<hr>
+	
+	<form method="get" action="/sedu/jspexam/exam4.jsp">
+		<input name="name" placeholder="이름을 입력하세요.">
+		<input type="submit" value="GET 방식요청">
+	</form>
+	
+	<hr>
+	
+	<form method="post" action="/sedu/jspexam/exam4.jsp">
+		<input name="name" placeholder="이름을 입력하세요.">
+		<input type="submit" value="POST 방식요청">
+	</form>
+</body>
+</html>
