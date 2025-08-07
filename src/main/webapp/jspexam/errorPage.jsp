@@ -10,7 +10,7 @@
 <body style="text-align:center">
 <h2>오류 발생했어욤ㅠㅠ</h2>
 <h3>빠른시일내에 복구하겠습니다...</h3>
-<img src="error.jpg">
+<img src="../images/error.jpg">
 <%	
     String msg = "오류 원인 : " + exception;	
 	System.out.println("----------------------------------------");

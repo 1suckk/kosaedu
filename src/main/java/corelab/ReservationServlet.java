@@ -2,7 +2,7 @@ package corelab;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +26,9 @@ public class ReservationServlet extends HttpServlet {
 		
 		String bookDate = request.getParameter("bookDate");
 		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+		String strNowDate = simpleDateFormat.format(bookDate);
+		
 		out.print("<h1 style='color:blue'>" + name + "님의 예약 내용" + "</h1>");
 		out.print("<hr/>");
 		out.print("<ul>선택한 룸: " + room + "</ul>");
@@ -38,7 +41,7 @@ public class ReservationServlet extends HttpServlet {
 			out.print("선택 안함");
 		}
 		out.print("</ul>");
-		out.print("<ul>예약날짜: " + bookDate + "</ul>");
+		out.print("<ul>예약날짜: " + strNowDate + "</ul>");
 		
 		out.close();
 	}

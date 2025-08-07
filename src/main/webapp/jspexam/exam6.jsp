@@ -10,7 +10,11 @@
 <h2>JSP로 구현한 구구단</h2>
  <%
  int dan= Integer.parseInt(request.getParameter("dan"));
- if (dan <= 9) {
+ if (dan > 1 && dan <= 9) {
+ %>
+ 
+ <%-- jsp 스크립트릿으로 구현; 불편함 --%>
+<%
  	for (int i=1;i<=9;i++){
 %>
 		 <%= dan %> x <%=i %> = <%=dan*i%><br>
@@ -18,11 +22,13 @@
 	}
  %>
  	<hr>
+<!-- out.print()를 가지고 구현 -->
 <%
 	for (int i=1;i<=9;i++){
 		out.print(dan + " x " + i + " = "  + dan*i + "<br>");	
 	}
- } else {
+ }
+ else {
 %>
 	<h3 style="color:red">1에서 9사이의 값을 입력해 주세요..</h3>
 <%	

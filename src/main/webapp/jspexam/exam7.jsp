@@ -12,14 +12,20 @@
 </style>
 </head>
 <body>
-	<% if (request.getMethod().equals("GET")) { %>
+	<%
+	
+	//get 방식일 때
+	if (request.getMethod().equals("GET")) { %>
 		<h2>원하는 칼라와 날짜를 선택하세요</h2>
 		<form method="post" action="/sedu/jspexam/exam7.jsp">
 			칼라 : <input type="color"  name="fcolor" ><br>
 			날짜 : <input type="date"  name="fdate"><br>
 			<input type="submit" value="전송">
 		</form>
-	<% } else { %>	
+	<% }
+	
+	//post 방식일 때
+	else { %>	
 			<script>
 				document.body.style.backgroundColor =
 					         '<%= request.getParameter("fcolor") %>';

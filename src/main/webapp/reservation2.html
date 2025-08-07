@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	@font-face {
+    	font-family: 'ONE-Mobile-POP';
+    	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+    	font-weight: normal;
+    	font-style: normal;
+	}
+	* {
+		font-family: 'ONE-Mobile-POP';
+	}
+	#top>h1 {
+		text-shadow: 3px 3px 10px orange;
+		text-align: center;
+	}
+	#top>hr {
+		width: 80%;
+		margin-bottom: 30px;
+	}
+	
+	#bottom {
+		width:50%;
+		height:300px;
+		border: 2px;
+		border-radius: 10px;
+		text-align: left;
+		background-color: orange;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#info {
+		margin-top: 20px;
+		margin-left: 30px;
+		padding-top: 20px;
+	}
+	#formhr{
+		width: 95%;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	#subm {
+		margin-left: 20px;
+		margin-bottom: 20px;
+	}
+</style> 
+<meta charset="UTF-8"> 
+<title>Insert title here</title>  
+</head>  
+<body>    
+	<div id="top"> 
+		<h1>펜션 예약 서비스</h1><hr>
+	</div>
+	<div id="bottom"> 
+		<form method="post" action="/sedu/jspexam/reservation.jsp">
+			<div id="info">
+				<label for="name">예약자명 : </label>
+				<input type="text" id="name" name="name" required="required"/><br><br>
+				<label for="password">예약암호 : </label>
+				<input type="password" id="password" name="password" required="required"/><br><br>
+				<label for="room">룸선택 : </label>
+				<input type="radio"  name="room" value="둘리"/>둘리
+				<input type="radio"  name="room" value="희동"/>희동
+				<input type="radio"  name="room" value="도우너"/>도우너
+				<input type="radio"  name="room" value="또치"/>또치<br><br>
+				<label for="option">추가요청사항 : </label>
+				<input type="checkbox" name="option" value="바베큐"/>바베큐
+				<input type="checkbox" name="option" value="수영장"/>수영장
+				<input type="checkbox" name="option" value="낚시"/>낚시
+				<input type="checkbox" name="option" value="조식"/>조식<br><br>
+				<label for="bookDate">예약날짜 : </label>
+				<input type="date" id="bookDate" name="bookDate"/>
+			</div>
+			<hr id="formhr"> 
+			<div id="subm">
+				<input type="submit" value="보내기"/>
+				<input type="reset" value="다시작성하기"/>			
+			</div>
+		</form>
+	</div>
+
+
+</body>
+</html>
