@@ -18,9 +18,3 @@
 <jsp:include page="date.jsp" /> 
 </body>
 </html>
-
-
-
-
-
-
