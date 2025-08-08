@@ -68,6 +68,7 @@ public class LottoServlet3 extends HttpServlet {
 			}
 		}
 		
+		//rd를 선언하는 부분은 공통적으로 마지막에 한번만 해주어 코드의 중복성을 완화
 		RequestDispatcher rd = request.getRequestDispatcher("./jspexam/lottoResult.jsp");
 		rd.forward(request, response);
 	}
